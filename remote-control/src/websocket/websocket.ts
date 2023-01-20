@@ -1,5 +1,6 @@
 import { WebSocketServer, createWebSocketStream } from 'ws';
 import { movement } from '../methods/navigation';
+import 
 
 const port = 8080
 
@@ -21,6 +22,7 @@ wss.on('connection', (ws) => {
         movement(command, Number(distance))
         break;
       case 'draw':
+
         break;
       case 'prnt':
         break;
