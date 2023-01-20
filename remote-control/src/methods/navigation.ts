@@ -6,7 +6,8 @@
 +4 Send mouse coordinates implemented properly
 */
 
-var robot = require("robotjs");
+import robot from 'robotjs';
+
 interface Position  {
   x: number;
   y: number;
