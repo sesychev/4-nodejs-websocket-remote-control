@@ -1,7 +1,7 @@
 # RSSchool NodeJS websocket task template
 
 > Static http server and base task packages.
-> WebSocket client tries to connect to the 8282 port.
+> WebSocket client tries to connect to the 8080 port.
 
 ## Installation
 
