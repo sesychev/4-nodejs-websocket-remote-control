@@ -1,40 +1,18 @@
-/*
-+4 Move mouse up implemented properly
-+4 Move mouse down implemented properly
-+4 Move mouse left implemented properly
-+4 Move mouse right implemented properly
-+4 Send mouse coordinates implemented properly
-*/
+import { mouse, left, right, up, down } from "@nut-tree/nut-js";
 
-import robot from 'robotjs';
-
-interface Position  {
-  x: number;
-  y: number;
-}
-
-const mouse = robot.getMousePos();
-console.log(`Mouse position (keyboard "p" button) (px): x:${mouse.x}, y:${mouse.y}`);
-
-export function movement(direction: string, distance: number) {
-  const mouse = robot.getMousePos();
-  let position: Position;
-
+export async function movement(direction: string, distance: number) {
   switch (direction) {
-    case 'mouse_up':
-      position = { x: mouse.x, y: mouse.y + distance };
+    case "mouse_up":
+      await mouse.move(up(distance));
       break;
-    case 'mouse_down':
-      position = { x: mouse.x, y: mouse.y - distance };
+    case "mouse_down":
+      await mouse.move(down(distance));
       break;
-    case 'mouse_left':
-      position = { x: mouse.x - distance, y: mouse.y };
+    case "mouse_left":
+      await mouse.move(left(distance));
       break;
-    case 'mouse_right':
-      position = { x: mouse.x + distance, y: mouse.y };
-      break;
-    default:
-      position = { x: mouse.x, y: mouse.y };
+    case "mouse_right":
+      await mouse.move(right(distance));
       break;
   }
 }

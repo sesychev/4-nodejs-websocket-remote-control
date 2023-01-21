@@ -1,6 +1,5 @@
 import { WebSocketServer, createWebSocketStream } from 'ws';
 import { movement } from '../methods/navigation';
-import 
 
 const port = 8080
 
@@ -13,7 +12,6 @@ wss.on('connection', (ws) => {
 
   duplex.on('data', async (chunk: object) => {
     console.log(`received: ${chunk}`);
-    //
     const [command, distance] = chunk.toString().split(' ');
     //duplex.write(chunk.toString())
     duplex.write(`${command}_${distance}`);
@@ -29,6 +27,24 @@ wss.on('connection', (ws) => {
       default:
         break;
     }
+
+  });
+
+  duplex.on('open', () =>{
+    console.log('connected');
+  });
+
+  duplex.on('close', () => {
+    console.log('disconnected');
+  });
+
+  duplex.on('error', (err) => {
+    console.log(err);
+  })
+});
+
+
+//
     //mouse_position {x px},{y px}
     //mouse_right {x px}
     //mouse_left {x px}
@@ -46,24 +62,4 @@ Print screen
 Make print screen command and send image (a base64 buffer of the 200 px square around the mouse position):
 <- prnt_scrn
 -> prnt_scrn {base64 string (png buf)}
-*/
-  });
-
-  duplex.on('open', () =>{
-    console.log('connected');
-  });
-
-  duplex.on('close', () => {
-    console.log('disconnected');
-  });
-
-  duplex.on('error', (err) => {
-    console.log(err);
-  })
-});
-
-/*
-+6 Implemented workable websocket server
-+10 Websocket server message handler implemented properly
-+10 Websocket server message sender implemented properly
 */
