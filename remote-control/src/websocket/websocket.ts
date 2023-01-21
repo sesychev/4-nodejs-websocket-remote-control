@@ -1,5 +1,6 @@
 import { WebSocketServer, createWebSocketStream } from 'ws';
 import { movement } from '../methods/navigation';
+import { mouse } from '@nut-tree/nut-js';
 
 const port = 8080
 
@@ -12,22 +13,24 @@ wss.on('connection', (ws) => {
 
   duplex.on('data', async (chunk: object) => {
     console.log(`received: ${chunk}`);
+
     const [command, distance] = chunk.toString().split(' ');
-    //duplex.write(chunk.toString())
-    duplex.write(`${command}_${distance}`);
+
     switch (command.split('_')[0]) {
       case 'mouse':
-        movement(command, Number(distance))
+        if(command === 'mouse_position') {
+          duplex.write(`${command}_(${(await mouse.getPosition()).x.toString()},${(await mouse.getPosition()).y.toString()})`);
+        }
+        else {
+        movement(command, Number(distance));
+        duplex.write(`${command}_${distance}`);
+        }
         break;
       case 'draw':
-
         break;
       case 'prnt':
         break;
-      default:
-        break;
     }
-
   });
 
   duplex.on('open', () =>{
@@ -43,14 +46,7 @@ wss.on('connection', (ws) => {
   })
 });
 
-
-//
-    //mouse_position {x px},{y px}
-    //mouse_right {x px}
-    //mouse_left {x px}
-    //duplex.write(`${movement} ${distance} px`);
-    //duplex.write(`${movement} ${distance}`);
-    /*
+/*
     Drawing
 Draw circle with pushed left button:
 <- draw_circle {px}
