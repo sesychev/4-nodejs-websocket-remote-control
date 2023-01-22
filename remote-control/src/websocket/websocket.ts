@@ -2,7 +2,7 @@ import { WebSocketServer, createWebSocketStream } from 'ws';
 import { movement } from '../methods/navigation';
 import { drawing } from '../methods/drawing';
 import { printing } from '../methods/screen';
-import { mouse, left, right, up, down, } from '@nut-tree/nut-js';
+import { mouse } from '@nut-tree/nut-js';
 
 const port = 8080
 
@@ -42,29 +42,17 @@ wss.on('connection', (ws) => {
         break;
       case 'prnt':
         printing();
+        duplex.write(`${command}`);
+        //duplex.write(`${command}_${(await printing()).split(',')[1]}`);
         break;
     }
-  });
-
-  duplex.on('close', () => {
-    console.log('disconnected');
   });
 
   duplex.on('error', (err) => {
     console.log(err);
   })
-});
 
-/*
-    Drawing
-Draw circle with pushed left button:
-<- draw_circle {px}
-Draw rectangle with pushed left button:
-<- draw_rectangle {px} {px}
-Draw square with pushed left button:
-<- draw_square {px}
-Print screen
-Make print screen command and send image (a base64 buffer of the 200 px square around the mouse position):
-<- prnt_scrn
--> prnt_scrn {base64 string (png buf)}
-*/
+  duplex.on('close', () => {
+    console.log('disconnected');
+  });
+});
