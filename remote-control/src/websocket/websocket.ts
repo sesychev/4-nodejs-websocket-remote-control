@@ -42,8 +42,8 @@ wss.on('connection', (ws) => {
         break;
       case 'prnt':
         printing();
-        duplex.write(`${command}`);
-        //duplex.write(`${command}_${(await printing()).split(',')[1]}`);
+        //duplex.write(`${command}`);
+        duplex.write(`${command}_${(await printing()).split(',')[1]}`);
         break;
     }
   });

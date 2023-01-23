@@ -11,6 +11,5 @@ export async function printing() {
   //image.bitmap.data = img.data;
   const base64 = await image.getBase64Async(Jimp.MIME_PNG);
   console.log(base64)
-
   return base64;
 }
